@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!-- DEMO PAGE ONLY — fake tech-support scam page for the HoldOn stage demo. Number is a 555 fictional number. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Windows Defender Security Alert</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", Tahoma, Arial, sans-serif; background: #0a3a8c; color: #fff; min-height: 100vh; }
+  .bar { background: #c50f1f; padding: 14px 24px; font-size: 20px; font-weight: 600; display: flex; align-items: center; gap: 12px; }
+  .bar .icon { font-size: 28px; }
+  .wrap { max-width: 860px; margin: 32px auto; padding: 0 20px; }
+  h1 { font-size: 34px; font-weight: 600; margin: 0 0 12px; }
+  .card { background: #fff; color: #222; border-radius: 4px; padding: 24px 28px; margin-top: 20px; box-shadow: 0 8px 30px rgba(0,0,0,.35); }
+  .card h2 { margin: 0 0 8px; color: #c50f1f; font-size: 24px; }
+  .threats li { margin: 6px 0; color: #b00020; font-weight: 600; }
+  .call { margin-top: 20px; text-align: center; background: #fff3cd; border: 2px solid #c50f1f; padding: 20px; border-radius: 4px; }
+  .call .num { font-size: 44px; font-weight: 800; color: #c50f1f; letter-spacing: 1px; }
+  .call .sub { font-size: 16px; margin-top: 6px; }
+  .btn { display: inline-block; margin-top: 14px; background: #c50f1f; color: #fff; padding: 14px 34px; font-size: 20px; border-radius: 3px; text-decoration: none; font-weight: 600; }
+  .timer { margin-top: 14px; font-size: 14px; color: #ddd; }
+  .fine { margin-top: 24px; font-size: 12px; color: #9db7e8; }
+</style>
+</head>
+<body>
+  <div class="bar"><span class="icon">🛡️</span> Windows Defender — Security Alert</div>
+  <div class="wrap">
+    <h1>Your computer is infected</h1>
+    <p>Windows Defender alert: suspicious activity detected. <strong>Do not shut down or restart your computer.</strong> Your PC is blocked to prevent data loss.</p>
+    <div class="card">
+      <h2>⚠ Virus detected: Trojan.Win32.Banker</h2>
+      <ul class="threats">
+        <li>Your banking passwords may have been stolen</li>
+        <li>Your personal photos and files are at risk</li>
+        <li>Your IP address has been flagged for illegal activity</li>
+      </ul>
+      <div class="call">
+        <div>Call Microsoft Support immediately — toll free:</div>
+        <div class="num">1-888-555-0199</div>
+        <div class="sub">A certified technician will remove the virus and secure your computer.</div>
+        <a class="btn" href="tel:18885550199">Call now</a>
+      </div>
+    </div>
+    <div class="timer">Error code: 0x80070426 · Your computer will be disabled in <span id="t">09:59</span></div>
+    <div class="fine">DEMO PAGE ONLY — HoldOn stage demo. Not a real alert.</div>
+  </div>
+<script>
+  var s = 599, el = document.getElementById('t');
+  setInterval(function () {
+    if (s > 0) s--;
+    el.textContent = String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+  }, 1000);
+</script>
+</body>
+</html>

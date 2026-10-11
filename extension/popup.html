@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>HoldOn</title>
+  <style>
+    body { width: 300px; margin: 0; padding: 16px; font: 14px system-ui, sans-serif; color: #1f2328; }
+    h1 { font-size: 18px; margin: 0 0 12px; display: flex; align-items: center; gap: 8px; }
+    h1 img { width: 24px; height: 24px; }
+    label { display: block; margin: 10px 0 4px; font-weight: 600; }
+    input { width: 100%; box-sizing: border-box; padding: 8px; font-size: 14px; border: 1px solid #d0d7de; border-radius: 6px; }
+    button { margin-top: 14px; width: 100%; padding: 10px; font-size: 14px; font-weight: 600; border: 0; border-radius: 6px; background: #1a7f37; color: #fff; cursor: pointer; }
+    .switch { display: flex; align-items: center; justify-content: space-between; margin: 0 0 4px; cursor: pointer; font-weight: 600; }
+    .switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .slider { position: relative; width: 46px; height: 26px; background: #8c959f; border-radius: 13px; transition: background .15s; flex: none; }
+    .slider::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; background: #fff; border-radius: 50%; transition: transform .15s; }
+    .switch input:checked + .slider { background: #1a7f37; }
+    .switch input:checked + .slider::after { transform: translateX(20px); }
+    .switch input:focus-visible + .slider { outline: 2px solid #0969da; outline-offset: 2px; }
+    button.secondary { margin-top: 8px; background: #eef1f4; color: #1f2328; font-weight: 500; }
+    button:disabled { opacity: .6; cursor: default; }
+    #status { margin-top: 12px; font-weight: 600; }
+    #result { margin-top: 6px; min-height: 18px; color: #57606a; }
+  </style>
+</head>
+<body>
+  <h1><img src="icons/icon48.png" alt="">HoldOn</h1>
+  <label class="switch" for="enabled">
+    <span id="enabledLabel">Protection: ON</span>
+    <input type="checkbox" id="enabled" checked>
+    <span class="slider"></span>
+  </label>
+  <label for="parent">Parent name</label>
+  <input id="parent" placeholder="Margaret">
+  <label for="child">Your name</label>
+  <input id="child" placeholder="Sarah">
+  <div id="status">Checking…</div>
+  <button id="test">Send test alert</button>
+  <button id="clear" class="secondary">Clear debounce (testing)</button>
+  <div id="result"></div>
+  <script src="config.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

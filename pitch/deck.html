@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HoldOn — Pitch</title>
+<style>
+  :root {
+    --bg: #0f1419; --panel: #182029; --text: #f3f1ec; --muted: #9aa5b1;
+    --red: #e5484d; --green: #3fb950; --amber: #f5a524; --line: #2a3542;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif; overflow: hidden; }
+  .slide { position: absolute; inset: 0; padding: 6vh 7vw; display: none; flex-direction: column; justify-content: center; }
+  .slide.active { display: flex; animation: fade .35s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  h1 { font-size: 5.2vw; line-height: 1.05; letter-spacing: -0.02em; font-weight: 800; }
+  h2 { font-size: 3vw; line-height: 1.15; font-weight: 700; letter-spacing: -0.01em; }
+  h3 { font-size: 1.9vw; font-weight: 600; color: var(--muted); }
+  p, li, td, th { font-size: 1.7vw; line-height: 1.45; }
+  .muted { color: var(--muted); }
+  .red { color: var(--red); } .green { color: var(--green); } .amber { color: var(--amber); }
+  .kicker { font-size: 1.1vw; letter-spacing: .2em; text-transform: uppercase; color: var(--red); font-weight: 700; margin-bottom: 2vh; }
+  .footer { position: absolute; bottom: 3vh; left: 7vw; right: 7vw; display: flex; justify-content: space-between; font-size: .9vw; color: var(--muted); }
+  ul.clean { list-style: none; margin-top: 4vh; }
+  ul.clean li { padding: 1.4vh 0; border-bottom: 1px solid var(--line); }
+  ul.clean li b { color: var(--text); }
+  .big-number { font-size: 11vw; font-weight: 900; line-height: .95; color: var(--red); letter-spacing: -0.03em; }
+  .grid { display: grid; gap: 2vw; margin-top: 4vh; }
+  .g3 { grid-template-columns: repeat(3, 1fr); } .g4 { grid-template-columns: repeat(4, 1fr); }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 2.4vh 1.6vw; }
+  .card .n { font-size: 3.4vw; font-weight: 800; }
+  .card .l { font-size: 1.15vw; color: var(--muted); margin-top: .6vh; line-height: 1.35; }
+  .goal { margin-top: 5vh; font-size: 2.2vw; font-weight: 700; border-left: 6px solid var(--green); padding-left: 1.5vw; }
+  .flow { display: flex; align-items: stretch; gap: .8vw; margin-top: 5vh; }
+  .step { flex: 1; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 2vh 1vw; font-size: 1.25vw; line-height: 1.35; position: relative; }
+  .step .num { font-size: 1vw; color: var(--muted); font-weight: 700; display: block; margin-bottom: .8vh; }
+  .step.hot { border-color: var(--red); background: #2a1517; }
+  .arrow { align-self: center; color: var(--muted); font-size: 1.6vw; }
+  .insight { margin-top: 5vh; font-size: 2.3vw; font-weight: 700; }
+  .timeline { position: relative; display: grid; grid-template-columns: repeat(6, 1fr); margin-top: 7vh; }
+  .timeline::before { content: ""; position: absolute; top: 4.2vw; left: 8%; right: 8%; height: 4px;
+    background: linear-gradient(90deg, var(--line), var(--red)); border-radius: 2px; }
+  .tl-step { position: relative; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1.6vh; }
+  .tl-step .dot { width: 8.4vw; height: 8.4vw; border-radius: 50%; background: var(--panel); border: 2px solid var(--line);
+    display: flex; align-items: center; justify-content: center; font-size: 3.6vw; position: relative; z-index: 1; }
+  .tl-step b { font-size: 1.5vw; line-height: 1.25; max-width: 13vw; }
+  .tl-step.hot .dot { border-color: var(--red); background: #2a1517; box-shadow: 0 0 0 8px rgba(229,72,77,.15); }
+  .tl-step.hot b { color: var(--red); }
+  .tag { font-size: .95vw; letter-spacing: .12em; text-transform: uppercase; color: var(--red); border: 1px solid var(--red);
+    border-radius: 999px; padding: .4vh .8vw; }
+  .timeline.safe { grid-template-columns: repeat(5, 1fr); margin-top: 6vh; }
+  .timeline.safe::before { background: linear-gradient(90deg, var(--line), var(--green)); left: 10%; right: 10%; }
+  .timeline.safe .tl-step.hot .dot { border-color: var(--green); background: #13261a; box-shadow: 0 0 0 8px rgba(63,185,80,.15); }
+  .timeline.safe .tl-step.hot b { color: var(--green); }
+  .timeline.safe .tag { color: var(--green); border-color: var(--green); }
+  .insight-row { display: flex; align-items: center; gap: 2vw; margin-top: 8vh; }
+  .pill { font-size: 2vw; font-weight: 800; padding: 2vh 2vw; border-radius: 999px; }
+  .pill.bad { background: #2a1517; border: 1px solid var(--red); color: var(--red); }
+  .pill.good { background: #13261a; border: 1px solid var(--green); color: var(--green); }
+  .arrow-big { font-size: 3vw; color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; margin-top: 3vh; }
+  th { text-align: left; font-size: 1.1vw; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 1.2vh 1vw; border-bottom: 2px solid var(--line); }
+  td { font-size: 1.3vw; padding: 1.5vh 1vw; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td.when { font-size: 1.8vw; font-weight: 800; }
+  td.when.no { color: var(--red); } td.when.late { color: var(--amber); } td.when.yes { color: var(--green); }
+  tr.us td { background: #13261a; border-bottom: none; }
+  tr.us td:first-child { border-radius: 10px 0 0 10px; } tr.us td:last-child { border-radius: 0 10px 10px 0; }
+  .gap { margin-top: 4vh; background: #2a1517; border: 1px solid var(--red); border-radius: 14px; padding: 2.5vh 2vw; font-size: 2.1vw; font-weight: 700; }
+  .pillars { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.2vw; margin-top: 5vh; }
+  .pillar { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 3vh 1.2vw; }
+  .pillar .ic { font-size: 2.8vw; } .pillar b { display: block; font-size: 1.45vw; margin: 1.5vh 0 1vh; }
+  .pillar span { font-size: 1.15vw; color: var(--muted); line-height: 1.4; }
+  .video-wrap { margin-top: 3vh; flex: 1; max-height: 62vh; background: #000; border-radius: 14px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .video-wrap iframe { width: 100%; height: 100%; border: 0; }
+  .video-missing { color: var(--muted); font-size: 1.4vw; text-align: center; padding: 2vw; }
+  .persona { display: flex; gap: 2vw; margin-top: 5vh; }
+  .persona .card { flex: 1; }
+  .persona .card b { font-size: 2vw; display: block; margin-bottom: 1vh; }
+  .demo-links { display: flex; gap: 1vw; margin-top: 5vh; flex-wrap: wrap; }
+  .demo-links a { color: var(--text); text-decoration: none; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 1.4vh 1.6vw; font-size: 1.2vw; }
+  .demo-links a:hover { border-color: var(--green); }
+  .roadmap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5vw; margin-top: 4vh; }
+  .col { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 2.5vh 1.5vw; }
+  .col h4 { font-size: 1.1vw; letter-spacing: .15em; text-transform: uppercase; margin-bottom: 1.5vh; }
+  .col.now h4 { color: var(--green); } .col.next h4 { color: var(--amber); } .col.later h4 { color: #7aa2ff; }
+  .col li { font-size: 1.2vw; list-style: none; padding: .9vh 0; border-bottom: 1px solid var(--line); line-height: 1.35; }
+  .col li:last-child { border-bottom: none; }
+  .mission { margin-top: 4vh; font-size: 2.4vw; font-weight: 800; }
+  .counter { position: fixed; bottom: 3vh; right: 3vw; font-size: .9vw; color: var(--muted); z-index: 5; }
+  .shield { display: inline-block; width: 4.4vw; height: 4.4vw; background: var(--green); border-radius: 0 0 50% 50% / 0 0 40% 40%; vertical-align: middle; margin-right: 1.2vw; position: relative; }
+  .shield::after { content: "✓"; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2.6vw; font-weight: 900; }
+</style>
+</head>
+<body>
+
+<!-- 1. VIDEO HOOK -->
+<section class="slide active">
+  <div class="kicker">HoldOn</div>
+  <h2>This happens thousands of times every day.</h2>
+  <div class="video-wrap">
+    <iframe id="clip" width="100%" height="100%"
+      src="https://www.youtube.com/embed/cIH1MFrRO9k?start=1035&end=1095&controls=0&rel=0&modestbranding=1&playsinline=1"
+      title="Scam VICTIM Gets Her $30,000 BACK" frameborder="0"
+      allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>
+  </div>
+  <div class="footer"><span>Clip: "Scam VICTIM Gets Her $30,000 BACK" — Trilogy Media / YouTube</span><span></span></div>
+</section>
+
+<!-- 2. EMOTIONAL PAIN -->
+<section class="slide">
+  <div class="kicker">The real cost</div>
+  <h1>They don't just lose money.<br><span class="red">They lose themselves.</span></h1>
+  <ul class="clean">
+    <li><b>Shame &amp; self-blame</b> <span class="muted">— "How could I be so stupid?"</span></li>
+    <li><b>Depression &amp; anxiety</b> <span class="muted">that lingers long after the call</span></li>
+    <li><b>Withdrawal</b> <span class="muted">— they stop answering the phone, stop banking online, stop trusting</span></li>
+    <li><b>Silence</b> <span class="muted">— many never tell their family</span></li>
+    <li><b>Fraud victimization is linked to higher suicide risk</b> <span class="muted">in older adults</span></li>
+  </ul>
+  <div class="footer"><span>Sources: systematic reviews of fraud victimization &amp; mental health (PMC); Kim et al. 2025</span><span></span></div>
+</section>
+
+<!-- 3. IMPACT -->
+<section class="slide">
+  <div class="kicker">The scale</div>
+  <div class="big-number">$7.75B</div>
+  <h3 style="margin-top:1.5vh">lost by Americans over 60 to online fraud in 2025</h3>
+  <div class="grid g4">
+    <div class="card"><div class="n">201,266</div><div class="l">seniors reported losses to the FBI</div></div>
+    <div class="card"><div class="n">$38,500</div><div class="l">average loss per victim: years of pension, gone</div></div>
+    <div class="card"><div class="n">$1.04B</div><div class="l">lost to tech-support scams alone</div></div>
+    <div class="card"><div class="n">23%</div><div class="l">of adults worldwide lost money to a scam last year (all ages, 42 markets)</div></div>
+  </div>
+  <div class="goal">Our goal: not just to save their money. To protect the life they built.</div>
+  <div class="footer"><span>Sources: FBI IC3 2025 Elder Fraud data; GASA Global State of Scams 2025</span><span></span></div>
+</section>
+
+<!-- 4. HOW THE SCAM WORKS -->
+<section class="slide">
+  <div class="kicker">How it happens</div>
+  <h2>Why the victim can't ask for help</h2>
+  <div class="timeline">
+    <div class="tl-step"><div class="dot">⚠️</div><b>Fake virus popup</b></div>
+    <div class="tl-step"><div class="dot">📞</div><b>"Microsoft" calls</b></div>
+    <div class="tl-step hot"><div class="dot">🖥️</div><b>He controls her screen</b><span class="tag">AnyDesk</span></div>
+    <div class="tl-step"><div class="dot">💸</div><b>Fake "refund"</b></div>
+    <div class="tl-step"><div class="dot">🎁</div><b>Gift cards &amp; crypto</b></div>
+    <div class="tl-step hot"><div class="dot">🤫</div><b>"Tell no one"</b><span class="tag">Isolation</span></div>
+  </div>
+  <div class="insight-row">
+    <div class="pill bad">👁 Watched &amp; isolated</div>
+    <div class="arrow-big">→</div>
+    <div class="pill good">Help must come from outside</div>
+  </div>
+</section>
+
+<!-- 5. EXISTING SOLUTIONS & GAP -->
+<section class="slide">
+  <div class="kicker">Existing solutions</div>
+  <h2>Everyone is solving the wrong moment</h2>
+  <table>
+    <tr><th>Solution</th><th>What it does</th><th>Family alerted?</th></tr>
+    <tr><td>AI scam checkers<br><span class="muted">Norton Genie, Bitdefender Scamio, McAfee</span></td><td>Paste a message, get a verdict</td><td class="when no">Never</td></tr>
+    <tr><td>ChatGPT / Claude</td><td>Answers questions</td><td class="when no">Never</td></tr>
+    <tr><td>Family finance monitoring<br><span class="muted">Carefull, EverSafe</span></td><td>Watches bank accounts</td><td class="when late">After</td></tr>
+    <tr><td>Bank fraud teams</td><td>Flag unusual transactions</td><td class="when late">Rarely</td></tr>
+    <tr><td>Spam call blockers<br><span class="muted">Truecaller, carriers</span></td><td>Block known scam numbers</td><td class="when no">Never</td></tr>
+    <tr class="us"><td><b>HoldOn</b></td><td>Detects the scam moment</td><td class="when yes">During ✓</td></tr>
+  </table>
+  <div class="gap">The gap: nobody alerts the family <u>during</u> the scam, <u>before</u> the money moves.</div>
+</section>
+
+<!-- 6. SOLUTION -->
+<section class="slide">
+  <div class="kicker">Introducing</div>
+  <h1><span class="shield"></span>HoldOn</h1>
+  <h3 style="margin-top:2vh">She can't call for help. <span class="green">HoldOn does.</span></h3>
+  <div class="timeline safe">
+    <div class="tl-step"><div class="dot">👁</div><b>Spots the scam moment</b><span class="tag">Popup · AnyDesk</span></div>
+    <div class="tl-step"><div class="dot">🛑</div><b>Mom sees STOP</b></div>
+    <div class="tl-step hot"><div class="dot">📲</div><b>Sarah's phone buzzes</b><span class="tag">AI alert · silent</span></div>
+    <div class="tl-step"><div class="dot">📞</div><b>Sarah calls Mom</b></div>
+    <div class="tl-step hot"><div class="dot">✅</div><b>Scam stopped</b><span class="tag">Logged</span></div>
+  </div>
+  <div class="insight-row">
+    <div class="pill good">🔒 Tamper-proof: removing HoldOn alerts Sarah too</div>
+  </div>
+</section>
+
+<!-- 7. DEMO -->
+<section class="slide">
+  <div class="kicker">Live demo</div>
+  <h1>Let's watch HoldOn work.</h1>
+  <div class="persona">
+    <div class="card"><b>Margaret, 74</b><span class="muted">Retired teacher, Ohio. Uses Chrome to email her grandkids.</span></div>
+    <div class="card"><b>Sarah, 46</b><span class="muted">Her daughter, 1,000 miles away in Austin.</span></div>
+  </div>
+  <div class="demo-links">
+    <a href="http://localhost:3000/fake-popup.html" target="_blank">① Fake virus popup</a>
+    <a href="https://anydesk.com" target="_blank">② anydesk.com</a>
+    <a href="http://localhost:3000/dashboard" target="_blank">③ Sarah's dashboard</a>
+  </div>
+</section>
+
+<!-- 8. VISION -->
+<section class="slide">
+  <div class="kicker">Vision</div>
+  <h2>From a browser guardian to a family safety net</h2>
+  <div class="roadmap">
+    <div class="col now"><h4>Now</h4><ul>
+      <li>Chrome extension</li><li>Silent family alerts with AI context</li><li>Tamper alarm</li><li>Impact dashboard</li></ul></div>
+    <div class="col next"><h4>Next 3 months</h4><ul>
+      <li>Mac &amp; Windows desktop app: detects remote-access tools running + screen sharing</li><li>Automatic phone call to family</li><li>Family app: multiple guardians, alert history</li><li>Safari &amp; Edge</li></ul></div>
+    <div class="col later"><h4>6–12 months</h4><ul>
+      <li>Bank &amp; credit-union partnerships: pause transfers during an active scam</li><li>Phone protection: scam-call detection on Mom's phone</li><li>Cool-off lock: banking pages locked until family approves</li><li>UK, Canada, Australia, then India</li></ul></div>
+  </div>
+  <div class="mission">No elder should ever face a scammer alone.</div>
+  <div class="footer"><span>$9.99/month per family · then distribution through banks &amp; credit unions</span><span>HoldOn: when scammers isolate, family answers.</span></div>
+</section>
+
+<div class="counter" id="counter"></div>
+
+<script>
+  const slides = [...document.querySelectorAll('.slide')];
+  let i = 0;
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('active', k === i));
+    document.getElementById('counter').textContent = (i + 1) + ' / ' + slides.length;
+    // Leaving the video slide: reload the iframe to stop playback (and reset to the start time).
+    const v = document.getElementById('clip');
+    if (v && i !== 0 && v.dataset.played) { v.src = v.src; delete v.dataset.played; }
+    if (v && i === 0) v.dataset.played = '1';
+  }
+  document.addEventListener('keydown', e => {
+    if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(i + 1); }
+    if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(i - 1); }
+    if (e.key === 'f') document.documentElement.requestFullscreen?.();
+  });
+  show(0);
+</script>
+</body>
+</html>
