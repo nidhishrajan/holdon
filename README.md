@@ -13,6 +13,8 @@ HoldOn is a Chrome extension that spots that moment and:
 
 Built in one afternoon at Vibe Sprint Hyderabad (The Product Folks × Scaler).
 
+**Pitch deck (live):** https://nidhishrajan.github.io/holdon/pitch/deck.html · **Demo walkthrough:** [PDF](pitch/HoldOn-demo-walkthrough.pdf) · [PPTX](pitch/HoldOn-demo-walkthrough.pptx)
+
 ---
 
 ## How it works
